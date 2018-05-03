@@ -166,26 +166,32 @@ public class CameraService extends Service {
                         e.printStackTrace();
                     }
                     mCamera.startPreview();
-
+                    mCamera.setDisplayOrientation(90);
+//                    mMediaRecorder.setOrientationHint(90);
                     mCamera.unlock();
 
                     mMediaRecorder = new MediaRecorder();
                     mMediaRecorder.setCamera(mCamera);
-
-                    mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-
+                    mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//                    //amogh add start
+//                    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+//                    mMediaRecorder.setVideoSize(720,480);
+//                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
+//                    //amogh add finish
                     if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
                         mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
                     } else {
-                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
+                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
                     }
 
                     mRecordingPath = Util.getOutputMediaFile(Util.MEDIA_TYPE_VIDEO).getPath();
                     mMediaRecorder.setOutputFile(mRecordingPath);
 
                     mMediaRecorder.setPreviewDisplay(holder.getSurface());
-
+                    mMediaRecorder.setCaptureRate(5);
+                    mMediaRecorder.setVideoFrameRate(5);
+//                    mMediaRecorder.setVideoFrameRate(10);
                     try {
                         mMediaRecorder.prepare();
                     } catch (IllegalStateException e) {

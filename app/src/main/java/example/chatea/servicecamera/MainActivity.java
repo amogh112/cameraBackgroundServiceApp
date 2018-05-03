@@ -50,7 +50,11 @@ public class MainActivity extends Activity {
                 }
             }
         });
-
+        if (mRecording) {
+            stopRecording();
+        } else {
+            startRecording();
+        }
         if (!Util.isCameraExist(this)) {
             mFrontRadioButton.setVisibility(View.GONE);
             mBackRadioButton.setVisibility(View.GONE);
