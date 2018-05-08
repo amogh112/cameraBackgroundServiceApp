@@ -1,6 +1,8 @@
 package example.chatea.servicecamera;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,11 +52,17 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        //start recording oncreate
         if (mRecording) {
             stopRecording();
         } else {
             startRecording();
         }
+        //amogh go back to facelogin
+//        Intent backtoFL=getPackageManager().getLaunchIntentForPackage("com.example.iris.login1");
+//        startActivity(backtoFL);
+        //amogh end of go back to facelogin
+
         if (!Util.isCameraExist(this)) {
             mFrontRadioButton.setVisibility(View.GONE);
             mBackRadioButton.setVisibility(View.GONE);

@@ -173,25 +173,45 @@ public class CameraService extends Service {
                     mMediaRecorder = new MediaRecorder();
                     mMediaRecorder.setCamera(mCamera);
                     mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-                    mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//                    //amogh add start
+
+//                    //amogh add start profile1- need to set frame rate
 //                    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 //                    mMediaRecorder.setVideoSize(720,480);
 //                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
-//                    //amogh add finish
-                    if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
-                    } else {
-                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
-                    }
+//                    //amogh add finish profile1
+
+                      //default profile
+//                    if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+//                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+//                    } else {
+//                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+//                    }
+                     //default profile ends
+
+
+                    //amogh add start profile2- need to set frame rate
+//                    mMediaRecorder.setVideoSize(720, 480);
+//                    mMediaRecorder.setVideoFrameRate(16); //might be auto-determined due to lighting
+//                    mMediaRecorder.setVideoEncodingBitRate(3444);
+//                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);// MPEG_4_SP
+//                    mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    // amogh add finish profile2
+
+
+                    // amogh add start profile3
+                    CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
+                    mMediaRecorder.setOutputFormat(profile.fileFormat);
+                    mMediaRecorder.setVideoEncoder(profile.videoCodec);
+                    mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
+                    mMediaRecorder.setVideoSize(240, 240);
+                    mMediaRecorder.setCaptureRate(5);
+                    mMediaRecorder.setVideoFrameRate(5);
+                    // amogh add finish profile3
 
                     mRecordingPath = Util.getOutputMediaFile(Util.MEDIA_TYPE_VIDEO).getPath();
                     mMediaRecorder.setOutputFile(mRecordingPath);
-
                     mMediaRecorder.setPreviewDisplay(holder.getSurface());
-                    mMediaRecorder.setCaptureRate(5);
-                    mMediaRecorder.setVideoFrameRate(5);
-//                    mMediaRecorder.setVideoFrameRate(10);
+//                    mMediaRecorder.setVideoEncodingBitRate(3444);
                     try {
                         mMediaRecorder.prepare();
                     } catch (IllegalStateException e) {
