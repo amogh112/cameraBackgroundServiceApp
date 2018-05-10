@@ -2,15 +2,19 @@ package example.chatea.servicecamera;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * Created by charliet on 3/19/15.
@@ -93,5 +97,38 @@ public class Util {
         }
 
         return mediaFile;
+    }
+    public static String getProperty(String key, Context context) throws IOException {
+        Properties properties = new Properties();
+
+        AssetManager assetManager = context.getAssets();
+
+        //seeing the files
+//        String path2 = Environment.getExternalStorageDirectory().getAbsolutePath();
+//        Log.d("Files", "Path: " + path2);
+//        File f = new File(path2);
+//        File file[] = f.listFiles();
+//        Log.d("Files", "Size: "+ file.length);
+////        for (int i=0; i < file.length; i++)
+////        {
+////            Log.d("Files", "FileName:" + file[i].getName());
+////        }
+
+        String fileName = "config.properties";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName;
+        Log.d("streamdebug2", path);
+
+
+        File file = new File(path);
+//        InputStream inputStream = context.getClass().getClassLoader().getResourceAsStream("example.properties");
+        InputStream inputStream = new FileInputStream(path);
+//         InputStream inputStream = context.openFileInput(path);
+
+//        InputStream inputStream = assetManager.open("config.properties");
+
+//        properties.load(new FileInputStream(path));
+        properties.load(inputStream);
+        inputStream.close();
+        return properties.getProperty(key);
     }
 }

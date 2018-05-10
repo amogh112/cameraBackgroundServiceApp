@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -20,13 +21,14 @@ public class MainActivity extends Activity {
 
     private boolean mRecording;
     private boolean mHandlingEvent;
-
+    private boolean flagClose=false;
     private RadioButton mFrontRadioButton;
     private RadioButton mBackRadioButton;
     private Button mRecordingButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("resuming","onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -50,6 +52,8 @@ public class MainActivity extends Activity {
                 } else {
                     startRecording();
                 }
+//                 android.os.Process.killProcess(android.os.Process.myPid());
+
             }
         });
         //start recording oncreate
@@ -71,6 +75,23 @@ public class MainActivity extends Activity {
             TextView noCameraTextView = (TextView) findViewById(R.id.no_camera_text_view);
             noCameraTextView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("resuming","onResume Called");
+        if(flagClose){
+            Log.d("resuming","close called");
+            Handler mHandler=new Handler();
+            Runnable mLaunchTask = new Runnable() {
+                public void run() {
+                                     android.os.Process.killProcess(android.os.Process.myPid());
+                }
+            };
+            mHandler.postDelayed(mLaunchTask,100);
+        }
+        flagClose=true;
     }
 
     private void startRecording() {
@@ -99,7 +120,7 @@ public class MainActivity extends Activity {
     private void stopRecording() {
         if (!mHandlingEvent) {
             mHandlingEvent = true;
-            ResultReceiver receiver = new ResultReceiver(new Handler()) {
+            ResultReceiver receiver = new ResultReceiver(new Handler()) { // Handler makes sure that the results are not returned in the background service thread, but in the UI thread
                 @Override
                 protected void onReceiveResult(int resultCode, Bundle resultData) {
                     setRecording(false);

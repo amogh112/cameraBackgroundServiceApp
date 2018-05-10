@@ -121,6 +121,7 @@ public class CameraService extends Service {
         }
         mRecording = true;
 
+
         final int cameraId = intent.getIntExtra(SELECTED_CAMERA_FOR_RECORDING,
                 Camera.CameraInfo.CAMERA_FACING_BACK);
         mCamera = Util.getCameraInstance(cameraId);
@@ -146,8 +147,27 @@ public class CameraService extends Service {
                     Camera.Parameters p = mCamera.getParameters();
 
                     List<Camera.Size> listSize;
-
                     listSize = p.getSupportedPreviewSizes();
+/* Log the available video sizes supported and available preview sizes for device.
+//                    List<Camera.Size> videosizes = p.getSupportedVideoSizes();
+//                    for(int i=0;i<listSize.size();i++)
+//                    {
+//                        Camera.Size tempSize = listSize.get(i);
+//                        Log.v("sizestag", "supported preview size= " + tempSize.width
+//                                + ", " + tempSize.height);
+//                    }
+//                    for(int i=0;i<videosizes.size();i++)
+//                    {
+//                        Camera.Size tempSize = listSize.get(i);
+//                        Log.v("sizestag", "supported video size" + tempSize.width
+//                                + ", " + tempSize.height);
+//                    }
+*/
+                    try {
+                        Log.d("streamdebug",Util.getProperty("launchRoboFeel",getApplicationContext()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Camera.Size mPreviewSize = listSize.get(2);
                     Log.v(TAG, "preview width = " + mPreviewSize.width
                             + " preview height = " + mPreviewSize.height);
@@ -174,11 +194,15 @@ public class CameraService extends Service {
                     mMediaRecorder.setCamera(mCamera);
                     mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
-//                    //amogh add start profile1- need to set frame rate
-//                    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-//                    mMediaRecorder.setVideoSize(720,480);
-//                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
-//                    //amogh add finish profile1
+//
+                    //amogh add start profile1
+                    mMediaRecorder.setVideoEncodingBitRate(100000);
+                    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
+                    mMediaRecorder.setVideoSize(720,480);
+                    mMediaRecorder.setCaptureRate(5);
+                    mMediaRecorder.setVideoFrameRate(5);
+                    //amogh add finish profile1
 
                       //default profile
 //                    if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
@@ -198,15 +222,18 @@ public class CameraService extends Service {
                     // amogh add finish profile2
 
 
-                    // amogh add start profile3
-                    CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
-                    mMediaRecorder.setOutputFormat(profile.fileFormat);
-                    mMediaRecorder.setVideoEncoder(profile.videoCodec);
-                    mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
-                    mMediaRecorder.setVideoSize(240, 240);
-                    mMediaRecorder.setCaptureRate(5);
-                    mMediaRecorder.setVideoFrameRate(5);
-                    // amogh add finish profile3
+//                    // amogh add start profile3
+//                    CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+//                    mMediaRecorder.setOutputFormat(profile.fileFormat);
+//                    mMediaRecorder.setVideoEncoder(profile.videoCodec);
+////                    mMediaRecorder.setVideoEncodingBitRate(8000000);
+//                    mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
+////                    mMediaRecorder.setVideoSize(profile.videoFrameWidth,profile.videoFrameHeight);
+//                    mMediaRecorder.setVideoSize(352, 288);
+//                    mMediaRecorder.setCaptureRate(5);
+//                    mMediaRecorder.setVideoFrameRate(5);
+//                    // amogh add finish profile3
+
 
                     mRecordingPath = Util.getOutputMediaFile(Util.MEDIA_TYPE_VIDEO).getPath();
                     mMediaRecorder.setOutputFile(mRecordingPath);
