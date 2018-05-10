@@ -187,31 +187,31 @@ public class CameraService extends Service {
                     }
                     mCamera.startPreview();
                     mCamera.setDisplayOrientation(90);
-//                    mMediaRecorder.setOrientationHint(90);
                     mCamera.unlock();
 
                     mMediaRecorder = new MediaRecorder();
                     mMediaRecorder.setCamera(mCamera);
                     mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+//                    mMediaRecorder.setOrientationHint(90);
 
-//
-                    //amogh add start profile1
-                    mMediaRecorder.setVideoEncodingBitRate(100000);
-                    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
-                    mMediaRecorder.setVideoSize(720,480);
-                    mMediaRecorder.setCaptureRate(5);
-                    mMediaRecorder.setVideoFrameRate(5);
-                    //amogh add finish profile1
-
-                      //default profile
+                    //default profile
+//                    mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 //                    if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
 //                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
 //                    } else {
 //                        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
 //                    }
-                     //default profile ends
+                    //default profile ends
 
+//
+                    //amogh add start profile1
+//                    mMediaRecorder.setVideoEncodingBitRate(100000);
+//                    mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+//                    mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
+//                    mMediaRecorder.setVideoSize(720,480);
+//                    mMediaRecorder.setCaptureRate(5);
+//                    mMediaRecorder.setVideoFrameRate(5);
+                    //amogh add finish profile1
 
                     //amogh add start profile2- need to set frame rate
 //                    mMediaRecorder.setVideoSize(720, 480);
@@ -223,15 +223,15 @@ public class CameraService extends Service {
 
 
 //                    // amogh add start profile3
-//                    CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
-//                    mMediaRecorder.setOutputFormat(profile.fileFormat);
-//                    mMediaRecorder.setVideoEncoder(profile.videoCodec);
-////                    mMediaRecorder.setVideoEncodingBitRate(8000000);
-//                    mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
-////                    mMediaRecorder.setVideoSize(profile.videoFrameWidth,profile.videoFrameHeight);
-//                    mMediaRecorder.setVideoSize(352, 288);
-//                    mMediaRecorder.setCaptureRate(5);
-//                    mMediaRecorder.setVideoFrameRate(5);
+                    CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+                    mMediaRecorder.setOutputFormat(profile.fileFormat);
+                    mMediaRecorder.setVideoEncoder(profile.videoCodec);
+//                    mMediaRecorder.setVideoEncodingBitRate(8000000);
+                    mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
+                    mMediaRecorder.setVideoSize(profile.videoFrameWidth,profile.videoFrameHeight);
+//                    mMediaRecorder.setVideoSize(720, 480);
+                    mMediaRecorder.setCaptureRate(15);
+                    mMediaRecorder.setVideoFrameRate(15);
 //                    // amogh add finish profile3
 
 
