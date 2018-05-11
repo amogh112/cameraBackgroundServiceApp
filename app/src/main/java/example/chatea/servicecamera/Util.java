@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,7 +67,7 @@ public class Util {
         // using Environment.getExternalStorageState() before doing this.
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+                Environment.DIRECTORY_MOVIES)+"/RoboFeel/", "MyCameraApp");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -100,33 +101,25 @@ public class Util {
     }
     public static String getProperty(String key, Context context) throws IOException {
         Properties properties = new Properties();
-
-        AssetManager assetManager = context.getAssets();
-
-        //seeing the files
-//        String path2 = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        Log.d("Files", "Path: " + path2);
-//        File f = new File(path2);
-//        File file[] = f.listFiles();
-//        Log.d("Files", "Size: "+ file.length);
-////        for (int i=0; i < file.length; i++)
-////        {
-////            Log.d("Files", "FileName:" + file[i].getName());
-////        }
-
-        String fileName = "config.properties";
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + fileName;
-        Log.d("streamdebug2", path);
-
-
-        File file = new File(path);
-//        InputStream inputStream = context.getClass().getClassLoader().getResourceAsStream("example.properties");
+        File activeFolder=new File(Environment.getExternalStorageDirectory()+"/configurations/Active/");
+        File[] file = activeFolder.listFiles();
+        boolean fileAvailable=false;
+        String path=null;
+        for (File f : file){
+            if (f.isFile() && f.getPath().endsWith(".properties")) {
+                if(fileAvailable==true)
+                {
+                    Toast.makeText(context, "You have multiple configuration files, "+f.getName()+" one is chosen!", Toast.LENGTH_LONG).show();
+                    path=f.getAbsolutePath();
+                    break;
+                }
+                else{
+                    fileAvailable=true;
+                    path=f.getAbsolutePath();
+                }
+            }
+        }
         InputStream inputStream = new FileInputStream(path);
-//         InputStream inputStream = context.openFileInput(path);
-
-//        InputStream inputStream = assetManager.open("config.properties");
-
-//        properties.load(new FileInputStream(path));
         properties.load(inputStream);
         inputStream.close();
         return properties.getProperty(key);

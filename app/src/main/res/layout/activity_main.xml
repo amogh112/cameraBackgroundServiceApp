@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:checkedButton="@+id/back_camera_radio_button">
+        android:checkedButton="@+id/back_camera_radio_button"
+        android:visibility="gone">
+
 
         <RadioButton
             android:id="@+id/front_camera_radio_button"
