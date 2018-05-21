@@ -109,7 +109,7 @@ public class Util {
             if (f.isFile() && f.getPath().endsWith(".properties")) {
                 if(fileAvailable==true)
                 {
-                    Toast.makeText(context, "You have multiple configuration files, "+f.getName()+" one is chosen!", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context, "You have multiple configuration files, "+f.getName()+" one is chosen!", Toast.LENGTH_LONG).show();
                     path=f.getAbsolutePath();
                     break;
                 }
