@@ -15,7 +15,7 @@ Problems while running:
 
 Works on Pixel and Samsung both.
 
-Basic idea - Call a function startToStartRecording in the CameraService class(which extends Service class) from the main activity which starts the service. What happens when the service starts (initialising camera and setting the preview on surfaceview) is in the function onStartCommand which is overridden.
+Basic idea - Call a function startToStartRecording in the CameraService class(which extends Service class) from the main activity which starts the service. What happens when the service starts (initialising camera and setting the preview on surfaceview) is in the function onStartCommand which is overridden. The surface holder's size is (1,1), you can try to increase it to 300,300.
 
 The recorded video will store in /sdcard/Pictures/MyCameraApp/*.mp4
 
